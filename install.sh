@@ -3,6 +3,20 @@
 # This runs as root on the server
 
 chef_binary=/var/lib/gems/1.9.1/bin/chef-solo
+git_binary=/usr/bin/git
+
+# Are we on a vanilla system?
+if ! test -f "$git_binary"; then
+    export DEBIAN_FRONTEND=noninteractive
+    # Upgrade headlessly (this is only safe-ish on vanilla systems)
+    aptitude update &&
+    # Install Git
+    aptitude install -y git-core
+fi &&
+
+# Clone Centralized Repo
+"$git_binary" clone https://github.com/bashou/chef-solo.git chef &&
+
 
 # Are we on a vanilla system?
 if ! test -f "$chef_binary"; then
