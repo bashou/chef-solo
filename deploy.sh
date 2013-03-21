@@ -9,7 +9,8 @@ host="${1:-ubuntu@opinionatedprogrammer.com}"
 ssh-keygen -R "${host#*@}" 2> /dev/null
 
 ssh -o 'StrictHostKeyChecking no' "$host" '
+sudo apt-get install -y git-core &&
 sudo rm -rf ~/chef &&
-mkdir ~/chef &&
+git clone https://github.com/bashou/chef-solo.git chef &&
 cd ~/chef &&
 sudo bash install.sh'
